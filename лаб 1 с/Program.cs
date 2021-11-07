@@ -255,7 +255,7 @@ namespace lab1
             Console.WriteLine();
             testCollection.TestDictsValues();
 
-
+            Console.WriteLine("Привет из 4 лабораторной!");
         }
     }
 }
