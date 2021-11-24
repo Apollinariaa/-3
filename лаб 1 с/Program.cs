@@ -159,103 +159,127 @@ namespace lab1
             //    Console.WriteLine(item);
             //}
 
-            Magazine m1 = new Magazine();
+            //Magazine m1 = new Magazine();
 
-            Article[] artic_arr = { new Article(new Person("Марина", "Константинова", new DateTime(2002, 08, 22)), "Древняя классика", 1) };
-            Person[] person_arr = { new Person("Полина", "Рослякова", new DateTime(2002, 02, 28)), new Person("Марина", "Константинова", new DateTime(2002, 08, 22)) };
-            m1.AddArticle(artic_arr);
-            m1.AddMembers(person_arr);
-            m1.Name_magazine = "Плохо жить";
-            //foreach (Person item in m1.GetNoArtics())
+            //Article[] artic_arr = { new Article(new Person("Марина", "Константинова", new DateTime(2002, 08, 22)), "Древняя классика", 1) };
+            //Person[] person_arr = { new Person("Полина", "Рослякова", new DateTime(2002, 02, 28)), new Person("Марина", "Константинова", new DateTime(2002, 08, 22)) };
+            //m1.AddArticle(artic_arr);
+            //m1.AddMembers(person_arr);
+            //m1.Name_magazine = "Плохо жить";
+            ////foreach (Person item in m1.GetNoArtics())
+            ////{
+            ////    Console.WriteLine(item);
+            ////}
+            //Magazine m3 = new Magazine();
+            //m3.Name_magazine = "Полишка Красотка";
+            //m3.Frequency = Frequency.Weekly;
+
+            //Magazine m2 = new Magazine();
+            //Article[] artic_arr_1 = { new Article(new Person("Марина", "Константинова", new DateTime(2002, 08, 22)), "Древняя классика", 1), new Article(new Person("Марина", "Петрова", new DateTime(2002, 08, 22)), "Античная классика", 3) };
+            //m2.AddArticle(artic_arr_1);
+
+
+
+            //Console.WriteLine("До сортировки");
+            //foreach (Article item in m2.ListArtic)
             //{
-            //    Console.WriteLine(item);
+            //    Console.WriteLine(item.ToString());
             //}
-            Magazine m3 = new Magazine();
-            m3.Name_magazine = "Полишка Красотка";
-            m3.Frequency = Frequency.Weekly;
+            //Console.WriteLine("..............................................");
 
-            Magazine m2 = new Magazine();
-            Article[] artic_arr_1 = { new Article(new Person("Марина", "Константинова", new DateTime(2002, 08, 22)), "Древняя классика", 1), new Article(new Person("Марина", "Петрова", new DateTime(2002, 08, 22)), "Античная классика", 3) };
-            m2.AddArticle(artic_arr_1);
+            //Console.WriteLine("Сортировка по названию: ");
+            //m2.SortArcodingToName();
+            //foreach (Article item in m2.ListArtic)
+            //{
+            //    Console.WriteLine(item.ToString());
+            //}
 
+            //Console.WriteLine("..............................................");
+            //Console.WriteLine("Сортировка по фамилии автора: ");
+            //m2.SortArcodingToAuthor();
+            //foreach (Article item in m2.ListArtic)
+            //{
+            //    Console.WriteLine(item.ToString());
+            //}
 
-
-            Console.WriteLine("До сортировки");
-            foreach (Article item in m2.ListArtic)
-            {
-                Console.WriteLine(item.ToString());
-            }
-            Console.WriteLine("..............................................");
-
-            Console.WriteLine("Сортировка по названию: ");
-            m2.SortArcodingToName();
-            foreach (Article item in m2.ListArtic)
-            {
-                Console.WriteLine(item.ToString());
-            }
-
-            Console.WriteLine("..............................................");
-            Console.WriteLine("Сортировка по фамилии автора: ");
-            m2.SortArcodingToAuthor();
-            foreach (Article item in m2.ListArtic)
-            {
-                Console.WriteLine(item.ToString());
-            }
-
-            Console.WriteLine("..............................................");
-            Console.WriteLine("Сортировка по рейтингу: ");
-            m2.SortArcodingToRating();
-            foreach (Article item in m2.ListArtic)
-            {
-                Console.WriteLine(item.ToString());
-            }
+            //Console.WriteLine("..............................................");
+            //Console.WriteLine("Сортировка по рейтингу: ");
+            //m2.SortArcodingToRating();
+            //foreach (Article item in m2.ListArtic)
+            //{
+            //    Console.WriteLine(item.ToString());
+            //}
 
 
-            Console.WriteLine("-----------------------------------------------------------");
-            MagazineCollection<string> magazineCollection = new MagazineCollection<string>(MagazineCollection<string>.GenerateKey);
-            magazineCollection.AddMagazines(m1, m2, m3);
-            Console.WriteLine(magazineCollection.ToString());
-            Console.WriteLine($"Максимальное значение рейтинга {magazineCollection.MaxRating}");
-            Console.WriteLine("-----------------------------------------------------------");
-            Console.WriteLine("Журналы, выпускаемые раз в месяц");
-            foreach (KeyValuePair<string, Magazine> item in magazineCollection.FrequencyGroup(Frequency.Monthly))
-            {
-                Console.WriteLine(item.Value);
-            }
-            Console.WriteLine("-----------------------------------------------------------");
-            foreach (var item in magazineCollection.NGroup)
-            {
-                Console.WriteLine($"Частота выпуска журналов в данной группе равна {item.Key}");
-                Console.WriteLine("-------------------------------------------------------");
-                foreach (Magazine j in item.ToDictionary(x => x.Key, x => x.Value).Values)
-                {
-                    Console.WriteLine(j.ToShortString());
-                    Console.WriteLine("-----------------------------------------------------------");
-                }
+            //Console.WriteLine("-----------------------------------------------------------");
+            //MagazineCollection<string> magazineCollection = new MagazineCollection<string>(MagazineCollection<string>.GenerateKey);
+            //magazineCollection.AddMagazines(m1, m2, m3);
+            //Console.WriteLine(magazineCollection.ToString());
+            //Console.WriteLine($"Максимальное значение рейтинга {magazineCollection.MaxRating}");
+            //Console.WriteLine("-----------------------------------------------------------");
+            //Console.WriteLine("Журналы, выпускаемые раз в месяц");
+            //foreach (KeyValuePair<string, Magazine> item in magazineCollection.FrequencyGroup(Frequency.Monthly))
+            //{
+            //    Console.WriteLine(item.Value);
+            //}
+            //Console.WriteLine("-----------------------------------------------------------");
+            //foreach (var item in magazineCollection.NGroup)
+            //{
+            //    Console.WriteLine($"Частота выпуска журналов в данной группе равна {item.Key}");
+            //    Console.WriteLine("-------------------------------------------------------");
+            //    foreach (Magazine j in item.ToDictionary(x => x.Key, x => x.Value).Values)
+            //    {
+            //        Console.WriteLine(j.ToShortString());
+            //        Console.WriteLine("-----------------------------------------------------------");
+            //    }
 
-            }
+            //}
 
-            int n;
-            Console.WriteLine("Введите количество элементов");
-            while (true)
-            {
-                bool flag = int.TryParse(Console.ReadLine(), out n);
-                if (!flag || n < 1)
-                {
-                    Console.WriteLine("Некорректный ввод, попробуйте снова");
-                }
-                else
-                    break;
-            }
+            //int n;
+            //Console.WriteLine("Введите количество элементов");
+            //while (true)
+            //{
+            //    bool flag = int.TryParse(Console.ReadLine(), out n);
+            //    if (!flag || n < 1)
+            //    {
+            //        Console.WriteLine("Некорректный ввод, попробуйте снова");
+            //    }
+            //    else
+            //        break;
+            //}
 
-            TestCollection<Edition, Magazine> testCollection = new TestCollection<Edition, Magazine>(n, TestCollection<Edition, Magazine>.GenerateElement);
-            testCollection.TestLists();
-            Console.WriteLine();
-            testCollection.TestDictsKeys();
-            Console.WriteLine();
-            testCollection.TestDictsValues();
+            //TestCollection<Edition, Magazine> testCollection = new TestCollection<Edition, Magazine>(n, TestCollection<Edition, Magazine>.GenerateElement);
+            //testCollection.TestLists();
+            //Console.WriteLine();
+            //testCollection.TestDictsKeys();
+            //Console.WriteLine();
+            //testCollection.TestDictsValues();
 
-            Console.WriteLine("Привет из 4 лабораторной!");
+            MagazineCollection<string> firstMac = new MagazineCollection<string>(MagazineCollection<string>.GenerateKey);
+            MagazineCollection<string> secondMac = new MagazineCollection<string>(MagazineCollection<string>.GenerateKey);
+            
+            Magazine number_1 = new Magazine("World", Frequency.Monthly, new DateTime(2002,2,23), 1000);
+            Magazine number_2 = new Magazine("My Family", Frequency.Weekly, new DateTime(2020,3, 9), 1500);
+            Magazine number_3 = new Magazine("My Life", Frequency.Yearly, new DateTime(2022,1, 01), 20);
+
+            Listener listener = new Listener();
+            
+            firstMac.MagazineChanged += listener.MagazineCollectionChanged;
+            secondMac.MagazineChanged += listener.MagazineCollectionChanged;
+
+            firstMac.Name = "Yoy and I";
+            firstMac.AddMagazines(number_1,number_3);
+
+            secondMac.Name = "All okas";
+            secondMac.AddMagazines(number_2,number_1);
+            // Изменение св-в эл-в входящих в кол-цию
+            number_1.Name_magazine = "I love food";
+            number_2.Date = new DateTime(1999,9,9);
+            number_3.Number = 5;
+            // Замена одного из элемента в кол-ции
+            firstMac.Replace(number_2, number_1);
+            Console.WriteLine("Данные объекта Listener: ");
+            Console.WriteLine(listener.ToString());
         }
     }
 }

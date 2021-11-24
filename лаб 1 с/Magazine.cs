@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace lab1
 {
+
     enum Frequency { Weekly, Monthly, Yearly }
 
-    class Magazine: Edition, IRateAndCopy, IEnumerable  
+    class Magazine: Edition, IRateAndCopy, IEnumerable, System.ComponentModel.INotifyPropertyChanged
     {
         Frequency frequency;
         List<Person> members;

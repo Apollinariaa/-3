@@ -2,21 +2,32 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.ComponentModel;
 
 namespace lab1
 {
     delegate TKey KeySelector<TKey>(Magazine mg);
+
+    delegate void MagazineChangedHandler<TKey>
+        (object source, MagazinesChangedEventArgs<TKey> args);
+
     class MagazineCollection<TKey>
     {
         Dictionary<TKey, Magazine> dictionary;
-        KeySelector<TKey> key;
+        KeySelector<TKey> ks;
 
+        public string Name { get; set; }
+
+        public event MagazineChangedHandler<TKey> MagazineChanged;
         public MagazineCollection(KeySelector<TKey> keySelector)
         {
-            key = keySelector;
+            ks = keySelector;
             dictionary = new Dictionary<TKey, Magazine>();
         }
-
+        public string AddName
+        {
+            get; set;
+        }
         public static string GenerateKey(Magazine mg)
         {
             return mg.Name_magazine;
@@ -27,7 +38,7 @@ namespace lab1
             if (dictionary.Count == 0)
             {
                 Magazine mg = new Magazine();
-                TKey key_value = key(mg);
+                TKey key_value = ks(mg);
                 dictionary.Add(key_value, mg);
             }
         }
@@ -36,9 +47,14 @@ namespace lab1
         {
             foreach (Magazine mg in mgs)
             {
-                TKey key_value = key(mg);
+                var key_value = ks(mg);
                 if (!dictionary.ContainsKey(key_value))
+                {
                     dictionary.Add(key_value, mg);
+                    MagazineChanged?.Invoke(this, new MagazinesChangedEventArgs<TKey>(Name, Update.Add, "Niiii", key_value));
+                }    
+                    
+                    
                 else
                     dictionary[key_value] = mg;
             }
@@ -92,5 +108,33 @@ namespace lab1
                 return dictionary.GroupBy(x => x.Value.Frequency);
             }
         }
+
+        private void MagazinePropertyChanged(Update Date, string Name, TKey Key)
+        {
+            MagazineChanged?.Invoke(this, new MagazinesChangedEventArgs<TKey>(AddName, Date, Name, Key));
+        }
+
+        public bool Replace(Magazine n, Magazine nw)
+        {
+            var k = dictionary.FirstOrDefault(m => m.Value == n).Key;
+            if (k != null)
+            {
+                dictionary[k] = nw;
+                MagazinePropertyChanged(Update.Replace, "None", k);
+                n.PropertyChanged -= PropertyChang;
+                nw.PropertyChanged += PropertyChang;
+                return true;
+            }
+            return false;
+        }
+
+        private void PropertyChang(object subject, EventArgs e)
+        {
+            var t = (PropertyChangedEventArgs)e;
+            var mg = (Magazine)subject;
+            var key = ks(mg);
+            MagazinePropertyChanged(Update.Property, t.PropertyName, key);
+        }
+
     }
 }

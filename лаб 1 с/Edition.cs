@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.ComponentModel;
 
 namespace lab1
 {
-    class Edition
+    class Edition: INotifyPropertyChanged
     {
         protected string name_magazine;
         protected DateTime date;
         protected int number;
+        public event PropertyChangedEventHandler PropertyChanged;
+
 
         public Edition(string name_magazineValue, DateTime dateValue, int numberValue)
         {
@@ -17,7 +20,7 @@ namespace lab1
             number = numberValue;
 
         }
-
+      
         public Edition() : this("Здорово жить", new DateTime(2021, 9, 5), 1000)
         {
         }
@@ -62,6 +65,45 @@ namespace lab1
                 number = value;
             }
         }  // проверка на ошибки 
+        public string Namemagazine
+        {
+            get
+            {
+                return name_magazine;
+            }
+            set
+            {
+                name_magazine = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("namemagazine"));
+            }
+        }
+        public DateTime Datee
+        {
+            get
+            {
+                return date;
+            }
+            set
+            {
+                date = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Date"));
+            }
+        }
+        public int Numberr
+        {
+            get
+            {
+                return number;
+            }
+            set
+            {
+                if (value < 0) throw new ArgumentOutOfRangeException("Тираж > 0 ");
+                else
+                {
+                    number = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Number"));
+                }
+            }
+        }
 
         public virtual object DeepCopy() // виртуальный метод 
         {
