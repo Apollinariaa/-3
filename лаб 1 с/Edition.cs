@@ -5,6 +5,7 @@ using System.ComponentModel;
 
 namespace lab1
 {
+    [Serializable]
     class Edition: INotifyPropertyChanged
     {
         protected string name_magazine;
@@ -65,46 +66,7 @@ namespace lab1
                 number = value;
             }
         }  // проверка на ошибки 
-        public string Namemagazine
-        {
-            get
-            {
-                return name_magazine;
-            }
-            set
-            {
-                name_magazine = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("namemagazine"));
-            }
-        }
-        public DateTime Datee
-        {
-            get
-            {
-                return date;
-            }
-            set
-            {
-                date = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Date"));
-            }
-        }
-        public int Numberr
-        {
-            get
-            {
-                return number;
-            }
-            set
-            {
-                if (value < 0) throw new ArgumentOutOfRangeException("Тираж > 0 ");
-                else
-                {
-                    number = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Number"));
-                }
-            }
-        }
-
+  
         public virtual object DeepCopy() // виртуальный метод 
         {
             return new Edition(name_magazine, new DateTime(date.Year, date.Month, date.Day), number);

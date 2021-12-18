@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace lab1
 {
+    [Serializable]
     class Person
     {
         string name;
@@ -122,7 +123,8 @@ namespace lab1
         public override int GetHashCode()
         {
             return HashCode.Combine(Name, Surname, Birthday);
-        }// возвращает числовое значение, соответсв данному обьекту
+        }
+        // возвращает числовое значение, соответсв данному обьекту
 
         public virtual object DeepCopy()
         {

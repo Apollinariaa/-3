@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.IO;
 using System.Collections.Generic;
 
 namespace lab1
@@ -255,31 +256,60 @@ namespace lab1
             //Console.WriteLine();
             //testCollection.TestDictsValues();
 
-            MagazineCollection<string> firstMac = new MagazineCollection<string>(MagazineCollection<string>.GenerateKey);
-            MagazineCollection<string> secondMac = new MagazineCollection<string>(MagazineCollection<string>.GenerateKey);
-            
+            //MagazineCollection<string> firstMac = new MagazineCollection<string>(MagazineCollection<string>.GenerateKey);
+            //MagazineCollection<string> secondMac = new MagazineCollection<string>(MagazineCollection<string>.GenerateKey);
+
             Magazine number_1 = new Magazine("World", Frequency.Monthly, new DateTime(2002,2,23), 1000);
-            Magazine number_2 = new Magazine("My Family", Frequency.Weekly, new DateTime(2020,3, 9), 1500);
-            Magazine number_3 = new Magazine("My Life", Frequency.Yearly, new DateTime(2022,1, 01), 20);
+            //Magazine number_2 = new Magazine("My Family", Frequency.Weekly, new DateTime(2020,3, 9), 1500);
+            //Magazine number_3 = new Magazine("My Life", Frequency.Yearly, new DateTime(2022,1, 01), 20);
 
-            Listener listener = new Listener();
-            
-            firstMac.MagazineChanged += listener.MagazineCollectionChanged;
-            secondMac.MagazineChanged += listener.MagazineCollectionChanged;
+            //Listener listener = new Listener();
 
-            firstMac.Name = "Yoy and I";
-            firstMac.AddMagazines(number_1,number_3);
+            //firstMac.MagazineChanged += listener.MagazineCollectionChanged;
+            //secondMac.MagazineChanged += listener.MagazineCollectionChanged;
 
-            secondMac.Name = "All okas";
-            secondMac.AddMagazines(number_2,number_1);
-            // Изменение св-в эл-в входящих в кол-цию
-            number_1.Name_magazine = "I love food";
-            number_2.Date = new DateTime(1999,9,9);
-            number_3.Number = 5;
-            // Замена одного из элемента в кол-ции
-            firstMac.Replace(number_2, number_1);
-            Console.WriteLine("Данные объекта Listener: ");
-            Console.WriteLine(listener.ToString());
+            //firstMac.Name = "Yoy and I";
+            //firstMac.AddMagazines(number_1,number_3);
+            number_1.AddArticle(new Article[2] { new Article(), new Article(new Person("Maria", "Murinova", new DateTime(1902, 5, 4)), "MyMy", 3) });
+            //secondMac.Name = "All okas";
+            //secondMac.AddMagazines(number_2,number_1);
+            //// Изменение св-в эл-в входящих в кол-цию
+            //number_1.Name_magazine = "I love food";
+            //number_2.Date = new DateTime(1999,9,9);
+            //number_3.Number = 5;
+            //// Замена одного из элемента в кол-ции
+            //firstMac.Replace(number_2, number_1);
+            //Console.WriteLine("Данные объекта Listener: ");
+            //Console.WriteLine(listener.ToString());
+
+            Magazine number_1copy = number_1.DeepCopy();
+            Console.WriteLine("Первый объект ");
+            Console.WriteLine(number_1);
+            Console.WriteLine("Скопированный объект");
+            Console.WriteLine(number_1copy);
+                      
+            Console.WriteLine("Введите название файла: ");
+            string file = Console.ReadLine();
+            if (File.Exists(file))
+            {
+                number_1.Load(file);
+            }
+            else
+            {
+                Console.WriteLine("Файла с таким именем не существует,но теперь он создан!");
+            }
+
+            Console.WriteLine(number_1);
+                       
+            number_1.AddFromConsole();
+            number_1.Save(file);
+            Console.WriteLine(number_1);
+                 
+            Magazine.Load(file, number_1);
+            number_1.AddFromConsole();
+            Magazine.Save(file, number_1);
+            Console.WriteLine(number_1);
+
         }
     }
 }

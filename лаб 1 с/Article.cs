@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace lab1
 {
+    [Serializable]
     class Article: IRateAndCopy, IComparable, IComparer<Article>
     {
         public Person person { get; set; }
