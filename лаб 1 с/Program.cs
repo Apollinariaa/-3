@@ -2,12 +2,19 @@
 using System.Diagnostics;
 using System.Linq;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Collections.Generic;
 
 namespace lab1
 {
     class Program
     {
+        const string MatrixDll = "C:\\Users\\Полина\\source\repos\\MatrixDll.dll";
+        [DllImport(MatrixDll)]
+        static extern double Time_VR(int n, int repeat);
+        [DllImport(MatrixDll)]
+        static unsafe extern void Solve_VR(int n, double[] a, double[] b, double* x);
+
         static void Main(string[] args)
         {
             //Magazine m1 = new Magazine();
@@ -259,56 +266,111 @@ namespace lab1
             //MagazineCollection<string> firstMac = new MagazineCollection<string>(MagazineCollection<string>.GenerateKey);
             //MagazineCollection<string> secondMac = new MagazineCollection<string>(MagazineCollection<string>.GenerateKey);
 
-            Magazine number_1 = new Magazine("World", Frequency.Monthly, new DateTime(2002,2,23), 1000);
-            //Magazine number_2 = new Magazine("My Family", Frequency.Weekly, new DateTime(2020,3, 9), 1500);
-            //Magazine number_3 = new Magazine("My Life", Frequency.Yearly, new DateTime(2022,1, 01), 20);
+            //Magazine number_1 = new Magazine("World", Frequency.Monthly, new DateTime(2002,2,23), 1000);
+            ////Magazine number_2 = new Magazine("My Family", Frequency.Weekly, new DateTime(2020,3, 9), 1500);
+            ////Magazine number_3 = new Magazine("My Life", Frequency.Yearly, new DateTime(2022,1, 01), 20);
 
-            //Listener listener = new Listener();
+            ////Listener listener = new Listener();
 
-            //firstMac.MagazineChanged += listener.MagazineCollectionChanged;
-            //secondMac.MagazineChanged += listener.MagazineCollectionChanged;
+            ////firstMac.MagazineChanged += listener.MagazineCollectionChanged;
+            ////secondMac.MagazineChanged += listener.MagazineCollectionChanged;
 
-            //firstMac.Name = "Yoy and I";
-            //firstMac.AddMagazines(number_1,number_3);
-            number_1.AddArticle(new Article[2] { new Article(), new Article(new Person("Maria", "Murinova", new DateTime(1902, 5, 4)), "MyMy", 3) });
-            //secondMac.Name = "All okas";
-            //secondMac.AddMagazines(number_2,number_1);
-            //// Изменение св-в эл-в входящих в кол-цию
-            //number_1.Name_magazine = "I love food";
-            //number_2.Date = new DateTime(1999,9,9);
-            //number_3.Number = 5;
-            //// Замена одного из элемента в кол-ции
-            //firstMac.Replace(number_2, number_1);
-            //Console.WriteLine("Данные объекта Listener: ");
-            //Console.WriteLine(listener.ToString());
+            ////firstMac.Name = "Yoy and I";
+            ////firstMac.AddMagazines(number_1,number_3);
+            //number_1.AddArticle(new Article[2] { new Article(), new Article(new Person("Maria", "Murinova", new DateTime(1902, 5, 4)), "MyMy", 3) });
+            ////secondMac.Name = "All okas";
+            ////secondMac.AddMagazines(number_2,number_1);
+            ////// Изменение св-в эл-в входящих в кол-цию
+            ////number_1.Name_magazine = "I love food";
+            ////number_2.Date = new DateTime(1999,9,9);
+            ////number_3.Number = 5;
+            ////// Замена одного из элемента в кол-ции
+            ////firstMac.Replace(number_2, number_1);
+            ////Console.WriteLine("Данные объекта Listener: ");
+            ////Console.WriteLine(listener.ToString());
 
-            Magazine number_1copy = number_1.DeepCopy();
-            Console.WriteLine("Первый объект ");
-            Console.WriteLine(number_1);
-            Console.WriteLine("Скопированный объект");
-            Console.WriteLine(number_1copy);
-                      
-            Console.WriteLine("Введите название файла: ");
-            string file = Console.ReadLine();
-            if (File.Exists(file))
+            //Magazine number_1copy = number_1.DeepCopy();
+            //Console.WriteLine("Первый объект ");
+            //Console.WriteLine(number_1);
+            //Console.WriteLine("Скопированный объект");
+            //Console.WriteLine(number_1copy);
+
+            //Console.WriteLine("Введите название файла: ");
+            //string file = Console.ReadLine();
+            //if (File.Exists(file))
+            //{
+            //    number_1.Load(file);
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Файла с таким именем не существует,но теперь он создан!");
+            //}
+
+            //Console.WriteLine(number_1);
+
+            //number_1.AddFromConsole();
+            //number_1.Save(file);
+            //Console.WriteLine(number_1);
+
+            //Magazine.Load(file, number_1);
+            //number_1.AddFromConsole();
+            //Magazine.Save(file, number_1);
+            //Console.WriteLine(number_1);
+            //программно задать матрицу 3-го порядка и правую часть
+
+            const int n = 3;
+            double[] max_1  = new double[n] { 6, 4, 5 };
+            double[] max_2 = new double[n] { 7, -3, 4 };
+            double[] max_3 = new double[n];
+            // задаем матрицу 3-го порядка и правую часть с несовпадающими эл-тами в строках и столбцах.
+            Matrix ob = new Matrix(n, max_1);
+            double[] ans = ob.Solve(max_2); 
+            Console.WriteLine("----------------Матрица-----------------");
+            Console.WriteLine(ob);
+            Console.WriteLine("----------------------------------------");
+            foreach (double i in max_2)
+                Console.WriteLine(i);
+            //Решаем систему линейных уравнений и выводим матрицу, правую часть и решение в С#
+            Console.WriteLine("C#");
+            foreach (double i in ans)
+                Console.WriteLine(i);
+            fixed (double* result = max_3) Solve_VR(3, max_1, max_2, result);
+
+            //Решаем систему линейных уравнений и выводим матрицу, правую часть и решение в С++
+            Console.WriteLine("C++");
+            for (int i = 0; i < max_3.Length; i++)
+                Console.WriteLine(max_3[i]);
+            TimeList t = new TimeList();
+            //Создать один объект типа TimesList и предлогаем пользователю ввести имя файла
+            Console.WriteLine("Введите имя файла");
+            string filename = Console.ReadLine();
+            if (File.Exists(filename))
             {
-                number_1.Load(file);
+                Console.WriteLine("Файл найден и считан...");
+                t.Load(filename);
+                Console.WriteLine(t);
             }
             else
             {
-                Console.WriteLine("Файла с таким именем не существует,но теперь он создан!");
+                Console.WriteLine("Файла с таким именем не существует");
+                File.Create(filename);
             }
 
-            Console.WriteLine(number_1);
-                       
-            number_1.AddFromConsole();
-            number_1.Save(file);
-            Console.WriteLine(number_1);
-                 
-            Magazine.Load(file, number_1);
-            number_1.AddFromConsole();
-            Magazine.Save(file, number_1);
-            Console.WriteLine(number_1);
+            static double Time_VR(int n, int k)
+            {
+                Stopwatch sw = new Stopwatch();
+                sw.Restart();
+                Matrix matrix = new Matrix(n);
+                double[] right = new double[n];
+
+                for (int i = 0; i < n; i++)
+                    right[i] = (i + 1) * 10;
+
+                for (int i = 0; i < k; i++)
+                    matrix.Solve(right);
+                sw.Stop();
+                return sw.Elapsed.TotalSeconds;
+            }
 
         }
     }
